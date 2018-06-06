@@ -6,6 +6,7 @@ import { Router, browserHistory } from 'react-router';
 import { loadState, saveState } from './localstorage';
 import Routes from './routes';
 import reducers from './reducers';
+import './App.css';
 
 const persistedState = loadState();
 

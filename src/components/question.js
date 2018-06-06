@@ -77,14 +77,14 @@ class Question extends React.Component {
                             <Link
                                 disabled={id == '0'}
                                 to={`/question/${Number(id) - 1}`}
-                                className={id == '0' ? "btn btn-danger pull-xs-left disabled" : "btn btn-danger pull-xs-left"}
+                                className={id == '0' ? "btn btn-danger float-xs-right disabled" : "btn btn-danger float-xs-right"}
                             >
                                 Back
                             </Link>
                             <button
                                 disabled={this.state.checked}
                                 type="submit"
-                                className="btn btn-primary pull-xs-right"
+                                className="btn btn-primary float-xs-right"
                             >
                                 Next
                             </button>

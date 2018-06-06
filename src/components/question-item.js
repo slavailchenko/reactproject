@@ -47,12 +47,12 @@ class QuestionItem extends React.Component {
                 <p className="list-group-item-text">Answer: {question.questionAnswer}</p>
                 <button
                     onClick={this.toggleEdit.bind(this)}
-                    className="btn btn-default">
+                    className="btn btn-default float-right">
                     Edit
                 </button>
                 <button
                     onClick={deleteQuestion.bind(this, question.questionTitle)}
-                    className="btn btn-danger">
+                    className="btn btn-danger float-right">
                     Delete
                 </button>
                 {this.state.editView &&
@@ -75,7 +75,7 @@ class QuestionItem extends React.Component {
                             className="form-control"
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit edits</button>
+                    <button type="submit" className="btn btn-primary float-right">Submit edits</button>
                 </form>}
             </li>
         )

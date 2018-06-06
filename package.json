@@ -9,6 +9,7 @@
     "react": "^15.3.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^15.3.1",
+    "react-radio-buttons": "^1.2.2",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.8",
     "react-router": "^2.7.0",

@@ -2,40 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {reduxForm, Field, formValueSelector} from 'redux-form';
-import 'bootstrap/dist/css/bootstrap.css'
-import Grid from 'react-bootstrap/lib/Grid'
-import Col from 'react-bootstrap/lib/Col'
+import 'bootstrap/dist/css/bootstrap.css';
+import { Grid, Col, Button } from 'react-bootstrap';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import Radio from './RadioGroup';
+
 import {createQuestion} from '../actions/index';
 import QuestionItem from './question-item';
-import RadioGroup from './RadioGroup'
 
 
-class RdGroup extends React.Component {
-  state = {
-    test: ''
-  }
 
-  handleChange = (e) => {
-    this.setState({[e.target.name]: e.target.value})
-  }
 
-  render() {
-    return <Grid>
-      <Col sm={12} style={{marginBottom: '1em'}}>
-        
-        <RadioGroup
-          name="test"
-          onChange={this.handleChange}
-          options={[]}
-          value={this.state.test}
-        />
-      </Col>
-      <Col sm={12}>
-      </Col>
-    </Grid>
-  }
-
-}
 
 class Home extends React.Component {
     constructor(props) {
@@ -81,12 +58,12 @@ class Home extends React.Component {
         const {error} = this.state;
         return (
             <div className="row">
-                <div className="col-md-4 offset-md-4">
-                    <h2 className="display-4 text-xs-center">Quiz Builder</h2>
+                <div className="col-md-12">
+                    <h2 className="display-1 text-xs-center">Quiz Builder</h2>
 
                     <form onSubmit={handleSubmit(this.createQuestionHandler.bind(this))}>
                         <div className="form-group">
-                            <label><Field name="questionType" component="input" type="radio" value="boolean"/>True or
+                            <label><Field name="questionType" component="input" type="radio" value="radio"/>True or
                                 False</label>
                             <label><Field name="questionType" component="input" type="radio" value="text"/>Text
                                 Answer</label>
@@ -99,18 +76,23 @@ class Home extends React.Component {
                             <label htmlFor="questionAnswer">Question answer:</label>
                             <Field name="questionAnswer" className="form-control" component="input" type="text"/>
                         </div>}
-                        {questionType == "boolean" && <div className="form-group">
-                            <label htmlFor="questionSubAnswer">Question subanswer:</label>
-                            
-                            <RadioGroup
-                                name="test"
-                                onChange={this.handleChange}
-                                options={ option => <Field name="questionSubAnswer" className="form-control" component="input" type="text"/>}
-                          value={this.state.test}
-                        />
-
+                        {questionType == "radio" && <div className="form-group">
+                            <label htmlFor="questionAnswer">Question subanswer:</label>
+                                <Grid>
+                                    <Col sm={12}>
+                                          <Field
+                                          name="questionAnswer"
+                                         
+                                          component={Radio}
+                                          options={{
+                                            yes: ' Yes',
+                                            no: ' No'
+                                          }}
+                                        />
+                                    </Col>
+                                 </Grid>
                         </div>}
-                        <button type="submit" className="btn btn-primary">Add Question</button>
+                        <button type="submit" className="btn btn-primary float-left">Add Question</button>
                     </form>
                     {error == 'true' &&
                     <div className="alert alert-danger" role="alert">
@@ -126,7 +108,7 @@ class Home extends React.Component {
                     <div className="list-group">
                         {questions.map(this.renderQuestions)}
                     </div>
-                    <Link to={"question/0"} className="btn btn-primary pull-xs-right">Preview Mode</Link>
+                    <Link to={"question/0"} className="btn btn-primary float-right">Preview Mode</Link>
                 </div>
             </div>
         )

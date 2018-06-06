@@ -1,36 +1,36 @@
-import React, {PropTypes as t} from 'react'
-import Button from 'react-bootstrap/lib/Button'
-import ButtonGroup from 'react-bootstrap/lib/ButtonGroup'
+import * as React from 'react';
+import { Field } from 'redux-form';
 
-/**
- * A ButtonGroup whose buttons act like a radio button.
- * Options should be passed as a list of [value, display] tuples.
- * Buttons are set up so you can use e.target.name and e.target.value in your
- * onChange handler like you would with regular form inputs.
- */
-let RadioGroup = React.createClass({
-  propTypes: {
-    name: t.string.isRequired,
-    onChange: t.func.isRequired,
-    options: t.arrayOf(t.arrayOf(t.string)),
-    value: t.string.isRequired,
-  },
-  render() {
-    let {disabled, name, onChange, options, value, ...props} = this.props
-    return <ButtonGroup {...props}>
-      {options.map(option =>
-        <Button
-          key={option}
-          bsStyle={option === value ? 'primary' : 'default'}
-          children={option}
-          disabled={disabled}
-          name={name}
-          onClick={onChange}
-          value={option}
-        />
-     )}
-    </ButtonGroup>
+export const Radio = props => {
+  if (props && props.input && props.options) {
+    const renderRadioButtons = (key, index) => {
+      return (
+        <label className="sans-serif w-100" key={`${index}`} htmlFor={`${props.input.name}-${index}`}>
+          <Field
+            id={`${props.input.name}`}
+            component="input"
+            name={props.input.name}
+            type="radio"
+            value={key}
+            className="mh2"
+          />
+          {props.options[key]}
+        </label>
+      )
+    };
+    return (
+      <div className="mv3 w-100">
+        <div className="b sans-serif pv2 w-100">
+          {props.label}
+        </div>
+        <div>
+          {props.options &&
+            Object.keys(props.options).map(renderRadioButtons)}
+        </div>
+      </div>
+    );
   }
-})
+  return <div></div>
+}
 
-export default RadioGroup;
+export default Radio;
