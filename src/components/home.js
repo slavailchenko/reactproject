@@ -3,14 +3,12 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {reduxForm, Field, formValueSelector} from 'redux-form';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Grid, Col, Button } from 'react-bootstrap';
+import { Grid, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Radio from './RadioGroup';
-
+import CheckboxGroup from './CheckboxGroup';
 import {createQuestion} from '../actions/index';
 import QuestionItem from './question-item';
-
-
 
 
 
@@ -40,6 +38,7 @@ class Home extends React.Component {
                 this.props.reset();
                 this.setState({error: 'false'});
                 this.props.createQuestion(props);
+                              
             })
             .catch(() => {
                 this.props.reset();
@@ -53,62 +52,84 @@ class Home extends React.Component {
         )
     }
 
+
     render() {
         const {handleSubmit, questionType, questions} = this.props;
         const {error} = this.state;
-        return (
+ 
+         return (
             <div className="row">
                 <div className="col-md-12">
-                    <h2 className="display-1 text-xs-center">Quiz Builder</h2>
+                    <h2 className="display-1 text-center">Quiz Builder</h2>
 
                     <form onSubmit={handleSubmit(this.createQuestionHandler.bind(this))}>
                         <div className="form-group">
-                            <label><Field name="questionType" component="input" type="radio" value="radio"/>True or
-                                False</label>
-                            <label><Field name="questionType" component="input" type="radio" value="text"/>Text
-                                Answer</label>
+                            <h4>Определите тип вопроса:</h4>
+                            <ButtonGroup>
+                            <Button bsStyle="primary"><Field name="questionType" component="input" type="radio" value="radio"/>
+                             Да/Нет
+                            </Button>
+                            <Button bsStyle="primary"><Field name="questionType" component="input" type="radio" value="text"/>
+                            Текст
+                            </Button>
+                            <Button bsStyle="primary"><Field name="questionType" component="input" type="radio" value="checkbox"/>
+                            Чекбокс
+                            </Button>
+                            </ButtonGroup>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="questionTitle">Question title:</label>
+                            <label htmlFor="questionTitle">Название вопроса:</label>
                             <Field name="questionTitle" className="form-control" component="input" type="text"/>
                         </div>
                         {questionType == "text" && <div className="form-group">
-                            <label htmlFor="questionAnswer">Question answer:</label>
-                            <Field name="questionAnswer" className="form-control" component="input" type="text"/>
+                            <label htmlFor="questionAnswer">Ответ на вопрос:</label>
+                            <Field name="questionAnswer" className="form-control" component="input" type="text"
+                            />
                         </div>}
                         {questionType == "radio" && <div className="form-group">
-                            <label htmlFor="questionAnswer">Question subanswer:</label>
+                            <label htmlFor="questionAnswer">Ответ на вопрос: </label>
                                 <Grid>
                                     <Col sm={12}>
                                           <Field
-                                          name="questionAnswer"
-                                         
-                                          component={Radio}
-                                          options={{
-                                            yes: ' Yes',
-                                            no: ' No'
+                                           name="questionAnswer"
+                                           component={Radio}
+                                           options={{
+                                            yes: ' Да',
+                                            no: ' Нет'
                                           }}
                                         />
                                     </Col>
                                  </Grid>
                         </div>}
-                        <button type="submit" className="btn btn-primary float-left">Add Question</button>
+                        {questionType == "checkbox" && <div className="form-group">
+                            <label htmlFor="questionAnswer">Ответ на вопрос:</label>
+                                <Grid>
+                                    <Col sm={12}>
+                       
+                                    <Field name="questionAnswer" component={CheckboxGroup} options=  {
+                                        [{id: 1, name: ' Optoin 1'}, 
+                                        {id: 2, name: ' Option 2'}, 
+                                        {id: 3, name: ' Option 3'}]} />
+                                    </Col>
+                                 </Grid>
+                        </div>}
+                        <button type="submit" className="btn btn-primary float-right">Добавить вопрос</button>
                     </form>
                     {error == 'true' &&
                     <div className="alert alert-danger" role="alert">
-                        Question save failed!
+                        Вопрос не сохранен!
                     </div>
                     }
                     {error == 'false' &&
                     <div className="alert alert-success" role="alert">
-                        Question saved!
+                        Вопрос сохранен!
                     </div>
                     }
-                    <h4>Questions:</h4>
+                    <h4>Вопросы</h4>
                     <div className="list-group">
                         {questions.map(this.renderQuestions)}
                     </div>
-                    <Link to={"question/0"} className="btn btn-primary float-right">Preview Mode</Link>
+                    <Link to={"question/0"} className="btn btn-primary float-right">Режим просмотра</Link>
                 </div>
             </div>
         )
@@ -122,6 +143,7 @@ function mapStateToProps(state) {
         questions: state.questions,
         questionType: selector(state, 'questionType')
     }
+
 }
 
 Home = reduxForm({

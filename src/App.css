@@ -2,10 +2,23 @@
 body {
   margin: 0;
   padding: 0;
-  background: url(./img/background.png) no-repeat;
+  background: url(./img/background.png);
 }
+
+h2 {
+       font-size: x-large;
+    }
+
+ .form-group {
+ 	background: white;
+ 	border-radius: 5px;
+ 	padding: 10px;
+ }
 
 .btn {
 	margin: 4px;
 }
 
+.alert {
+	width: 50%;
+}
